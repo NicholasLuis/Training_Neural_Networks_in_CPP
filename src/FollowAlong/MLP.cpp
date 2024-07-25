@@ -1,5 +1,5 @@
 #include "MLP.h"
-// Last updated: Ch2, L5
+// Last updated: Ch3, L2
 
 double frand(){
 	return (2.0*(double)rand() / RAND_MAX) - 1.0;
@@ -36,4 +36,24 @@ void Perceptron::set_weights(std::vector<double> w_init){
 double Perceptron::sigmoid(double x){
 	// Return the output of the sigmoid function applied to x
 	return 1 / (1 + exp(-x));
+}
+
+// Return a new MultiLayerPerceptron object with the specified parameters.
+MultiLayerPerceptron::MultiLayerPerceptron(std::vector<size_t> layers, double bias, double eta) {
+    this->layers = layers;
+    this->bias = bias;
+    this->eta = eta;
+
+	// Nested loops to create neurons layer by layer
+	for (size_t i = 0; i < layers.size(); i++) { // Iterates through i layers
+		
+		values.push_back(std::vector<double>(layers[i], 0.0)); // Vector of values
+		network.push_back(std::vector<Perceptron>());// Vector of neurons (empty for now)
+		
+		if (i>0) {// Does not iterate through input layer because it has no neurons
+			for (size_t j = 0; j < layers[i]; j++) { // Iterates through the neurons in given layer
+				network[i].push_back(Perceptron(layers[i-1], bias));
+			}
+		}
+	}
 }

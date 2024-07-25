@@ -27,8 +27,8 @@ class MultiLayerPerceptron{
 		
 		std::vector<size_t> layers;
 		double bias;
-		double eta;
+		double eta; // Learning rate
 		std::vector<std::vector<Perceptron> > network;
-		std::vector<std::vector<double> > values;
-		std::vector<std::vector<double> > d;
+		std::vector<std::vector<double> > values; // For propogating results forward through the network
+		std::vector<std::vector<double> > d; // Error terms for the neurons
 };
