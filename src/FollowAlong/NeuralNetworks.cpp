@@ -24,4 +24,18 @@ int main(){
     std::cout << p.run({0,1}) << std::endl;
     std::cout << p.run({1,0}) << std::endl;
     std::cout << p.run({1,1}) << std::endl;
+
+    p.set_weights({-20,-20,10}); //NOR
+    std::cout << "NOR Gate" << std::endl;
+    std::cout << p.run({0,0}) << std::endl;
+    std::cout << p.run({0,1}) << std::endl;
+    std::cout << p.run({1,0}) << std::endl;
+    std::cout << p.run({1,1}) << std::endl;
+
+    p.set_weights({-10,-10,15}); //NAND
+    std::cout << "NAND Gate" << std::endl;
+    std::cout << p.run({0,0}) << std::endl;
+    std::cout << p.run({0,1}) << std::endl;
+    std::cout << p.run({1,0}) << std::endl;
+    std::cout << p.run({1,1}) << std::endl;
 }
