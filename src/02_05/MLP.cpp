@@ -22,10 +22,17 @@ double Perceptron::run(std::vector<double> x){
 // Challenge: Finish the following functions:
 
 void Perceptron::set_weights(std::vector<double> w_init){
-	// w_init is a vector of doubles. Organize it as you'd like.
+	// Verifies that this is same size as inputs + 1 (activation fcn)
+	if (weights.size() != w_init.size()) {
+		std::cout << "Incorrect w_init input size" << std::endl;
+	}
+	else {
+		weights = w_init;
+	}
+	
 }
 
 double Perceptron::sigmoid(double x){
 	// Return the output of the sigmoid function applied to x
-	return 0.0;
+	return 1 / (1 + exp(-x));
 }
