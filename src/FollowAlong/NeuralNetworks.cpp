@@ -1,6 +1,6 @@
 // NeuralNetworks.cpp : This file contains the 'main' function. Program execution begins and ends there.//
 
-// Last updated: Ch3, L2
+// Last updated: Ch4, L8
 
 #include "MLP.h"
 
