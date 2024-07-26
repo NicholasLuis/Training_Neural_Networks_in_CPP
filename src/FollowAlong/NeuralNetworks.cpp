@@ -42,6 +42,14 @@ int main(){
     std::cout << p.run({1,1}) << std::endl;
 
     */
+    std::cout << "--------MLP Example: XOR Gate--------"; 
 
+    // Creating the neural network
+    std::vector<size_t> numLayers(2); // Specifies number of layers
+    std::vector< std::vector< std::vector< double> > > weights = { { {-10, -10, 15}, {15, 15, -10} }, { {10, 10, -15} } }; // Weights corresponding to the different 
+    MultiLayerPerceptron myMLP(numLayers, 1.0, 0.5);
+    myMLP.set_weights(weights);
+
+    // Running the neural network
 
 }
