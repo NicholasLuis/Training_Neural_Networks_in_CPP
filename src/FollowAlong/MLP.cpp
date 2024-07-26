@@ -59,21 +59,17 @@ MultiLayerPerceptron::MultiLayerPerceptron(std::vector<size_t> layers, double bi
 void MultiLayerPerceptron::set_weights(const std::vector<std::vector<std::vector<double> > > w_init) {
     // w_init is a vector of vectors of vectors of doubles.
 	// Outer-most vector corresponds to the layer, Next-inner vector is the neurons, Inner-most are the weights
-	
-	/*
-	// Initializing iterators
-	std::vector< std::vector< std::vector<double> > >::const_iterator layer_it; // Layer iterator
-	std::vector< std::vector<double> >::const_iterator neuron_it; // Nueron iterator
-	std::vector<double>::const_iterator weight_it; // Weight iterator
 
-	for (layer_it = w_init.begin(); layer_it != w_init.end(); layer_it++) { // Iterates through the layers
-		for (neuron_it = layer_it->begin(); neuron_it != layer_it->end(); neuron_it++) { // Iterates through the neurons
-			for (weight_it = neuron_it->begin(); weight_it != neuron_it->end(); weight_it++) { // Iterates through the weights and assigns them
-
-			}
+	int i = 0;
+	int j = 0;
+	for (const auto layerVec : w_init) { // Iterates through the layers of a given network
+		i++;
+		j = 0;
+		for (const auto neuronVec : layerVec) { // Iterates through the neurons of a given layer
+			j++;
+			network[i][j].set_weights(neuronVec);
 		}
 	}
-	*/
 }
 
 void MultiLayerPerceptron::print_weights() {
