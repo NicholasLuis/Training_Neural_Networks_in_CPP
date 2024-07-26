@@ -20,8 +20,6 @@ double Perceptron::run(std::vector<double> x){
 	return sigmoid(sum);
 }
 
-// Challenge: Finish the following functions:
-
 void Perceptron::set_weights(std::vector<double> w_init){
 	// Verifies that this is same size as inputs + 1 (activation fcn)
 	if (weights.size() != w_init.size()) {
@@ -56,4 +54,43 @@ MultiLayerPerceptron::MultiLayerPerceptron(std::vector<size_t> layers, double bi
 			}
 		}
 	}
+}
+
+void MultiLayerPerceptron::set_weights(const std::vector<std::vector<std::vector<double> > > w_init) {
+    // w_init is a vector of vectors of vectors of doubles.
+	// Outer-most vector corresponds to the layer, Next-inner vector is the neurons, Inner-most are the weights
+	
+	/*
+	// Initializing iterators
+	std::vector< std::vector< std::vector<double> > >::const_iterator layer_it; // Layer iterator
+	std::vector< std::vector<double> >::const_iterator neuron_it; // Nueron iterator
+	std::vector<double>::const_iterator weight_it; // Weight iterator
+
+	for (layer_it = w_init.begin(); layer_it != w_init.end(); layer_it++) { // Iterates through the layers
+		for (neuron_it = layer_it->begin(); neuron_it != layer_it->end(); neuron_it++) { // Iterates through the neurons
+			for (weight_it = neuron_it->begin(); weight_it != neuron_it->end(); weight_it++) { // Iterates through the weights and assigns them
+
+			}
+		}
+	}
+	*/
+}
+
+void MultiLayerPerceptron::print_weights() {
+    std::cout << std::endl;
+    for (size_t i = 1; i < network.size(); i++){
+        for (size_t j = 0; j < layers[i]; j++) {
+            std::cout << "Layer " << i+1 << " Neuron " << j << ": ";
+            for (auto &it: network[i][j].weights)
+                std::cout << it << "   ";
+            std::cout << std::endl;
+        }
+    }
+    std::cout << std::endl;
+}
+
+std::vector<double> MultiLayerPerceptron::run(std::vector<double> x) {
+    // Run an input forward through the neural network.
+    // x is a vector with the input values.
+    return values.back();
 }
