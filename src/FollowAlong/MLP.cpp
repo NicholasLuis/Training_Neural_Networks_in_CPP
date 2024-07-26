@@ -37,8 +37,8 @@ double Perceptron::sigmoid(double x){
 }
 
 // Return a new MultiLayerPerceptron object with the specified parameters.
-MultiLayerPerceptron::MultiLayerPerceptron(std::vector<size_t> layers, double bias, double eta) {
-    this->layers = layers;
+MultiLayerPerceptron::MultiLayerPerceptron(std::vector<size_t> layersinfo, double bias, double eta) {
+    this->layers = layersinfo;
     this->bias = bias;
     this->eta = eta;
 
@@ -60,14 +60,9 @@ void MultiLayerPerceptron::set_weights(const std::vector<std::vector<std::vector
     // w_init is a vector of vectors of vectors of doubles.
 	// Outer-most vector corresponds to the layer, Next-inner vector is the neurons, Inner-most are the weights
 
-	int i = 0;
-	int j = 0;
-	for (const auto layerVec : w_init) { // Iterates through the layers of a given network
-		i++;
-		j = 0;
-		for (const auto neuronVec : layerVec) { // Iterates through the neurons of a given layer
-			j++;
-			network[i][j].set_weights(neuronVec);
+	for (size_t i = 0; i < w_init.size(); i++) { // Iterates through the layers of a given network
+		for (size_t j = 0; j < w_init[i].size(); j++) { // Iterates through the neurons of a given layer
+			network[i+1][j].set_weights(w_init[i][j]); // i+1 because we skip over input layer
 		}
 	}
 }
