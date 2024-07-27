@@ -92,3 +92,33 @@ std::vector<double> MultiLayerPerceptron::run(std::vector<double> x) {
 
     return values.back();
 }
+
+// Run a single (x,y) pair with the backpropagation algorithm.
+double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
+
+    // Backpropagation Step by Step:
+
+    // STEP 1: Feed a sample to the network
+
+    // STEP 2: Calculate the MSE
+    double MSE = 0.0;
+
+    // STEP 3: Calculate the output error terms
+
+    // STEP 4: Calculate the error term of each unit on each layer    
+    for (size_t i = network.size() - 2; i > 0; i--)
+        for (size_t h = 0; h < network[i].size(); h++) {
+            double fwd_error = 0.0;
+            for (size_t k = 0; k < layers[i + 1]; k++)
+                ; // fill in the blank
+            ; // fill in the blank
+        }
+
+    // STEPS 5 & 6: Calculate the deltas and update the weights
+    for (size_t i = 1; i < network.size(); i++)
+        for (size_t j = 0; j < layers[i]; j++)
+            for (size_t k = 0; k < layers[i - 1] + 1; k++) {
+                // fill in the blank
+            }
+    return MSE;
+}
