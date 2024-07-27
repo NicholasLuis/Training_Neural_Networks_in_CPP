@@ -97,28 +97,34 @@ std::vector<double> MultiLayerPerceptron::run(std::vector<double> x) {
 double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
     // Resetting values
     MSE = 0.0;
+    outputWeightedError = 0.0; // SUM(w_k1 * d_k) 
 
     // Backpropagation Step by Step:
     // STEP 1: Feed a sample to the network
     std::vector<double> results = run(x);
-    // STEP 2: Calculate the MSE
     if (results.size() != y.size()) { // Makes sure the output size is as expected
         std::cerr << "The size of the results vector is not expected";
         return -1;
     }
-    for (size_t i = 0; i < y.size(); i++) {
-        MSE += (y[i] - output[i]);
+    // STEP 2: Calculate the MSE
+    for (size_t i = 0; i < y.size(); i++) { // Iterates through every output value
+        MSE += pow(y[i] - output[i] , 2.0);
+    }
+    MSE /= y.size();
+
+    // STEP 3: Calculate the output error terms (of each output neuron)
+    for (size_t i = 0; i < output.size(); i++) { // Iterates through every output value
+        d.back()[i] = output[i] * (1.0 - output[i]) * (y[i] - output[i]);
     }
 
-    // STEP 3: Calculate the output error terms (of each neuron)
-
-    // STEP 4: Calculate the error term of each unit on each layer    
-    for (size_t i = network.size() - 2; i > 0; i--)
-        for (size_t h = 0; h < network[i].size(); h++) {
-            double fwd_error = 0.0;
-            for (size_t k = 0; k < layers[i + 1]; k++)
-                ; // fill in the blank
-            ; // fill in the blank
+    // STEP 4: Calculate the error term of each neuron on each layer    
+    for (size_t i = network.size() - 2; i > 0; i--) // Iterates through layers (backwards)
+        for (size_t h = 0; h < network[i].size(); h++) { // Iterates through neurons in given layer
+            outputWeightedError = 0.0;
+            for (size_t k = 0; k < layers[i + 1]; k++) {// Iterates through the input weights connected to the output of given neuron
+                outputWeightedError += network[i][h].weights[k] * ( d[d.size() - i + 1][h]); 
+            }
+            d[d.size() - i][h] = output[i] * (1.0 - output[i]) * outputWeightedError;
         }
 
     // STEPS 5 & 6: Calculate the deltas and update the weights

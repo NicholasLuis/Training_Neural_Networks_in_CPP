@@ -35,4 +35,5 @@ class MultiLayerPerceptron{
 		// For training neural networks (loop optimization)
 		double MSE = 0.0;
 		std::vector<double> output = { 0.0 };
+		double outputWeightedError = 0.0;
 };
