@@ -23,7 +23,7 @@ double Perceptron::run(std::vector<double> x){
 void Perceptron::set_weights(std::vector<double> w_init){
 	// Verifies that this is same size as inputs + 1 (activation fcn)
 	if (weights.size() != w_init.size()) {
-		std::cout << "Incorrect w_init input size" << std::endl;
+		std::cerr << "Incorrect w_init input size";
 	}
 	else {
 		weights = w_init;
@@ -95,15 +95,22 @@ std::vector<double> MultiLayerPerceptron::run(std::vector<double> x) {
 
 // Run a single (x,y) pair with the backpropagation algorithm.
 double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
+    // Resetting values
+    MSE = 0.0;
 
     // Backpropagation Step by Step:
-
     // STEP 1: Feed a sample to the network
-
+    std::vector<double> results = run(x);
     // STEP 2: Calculate the MSE
-    double MSE = 0.0;
+    if (results.size() != y.size()) { // Makes sure the output size is as expected
+        std::cerr << "The size of the results vector is not expected";
+        return -1;
+    }
+    for (size_t i = 0; i < y.size(); i++) {
+        MSE += (y[i] - output[i]);
+    }
 
-    // STEP 3: Calculate the output error terms
+    // STEP 3: Calculate the output error terms (of each neuron)
 
     // STEP 4: Calculate the error term of each unit on each layer    
     for (size_t i = network.size() - 2; i > 0; i--)

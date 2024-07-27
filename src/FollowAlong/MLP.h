@@ -31,4 +31,8 @@ class MultiLayerPerceptron{
 		std::vector<std::vector<Perceptron> > network;
 		std::vector<std::vector<double> > values; // For propogating results forward through the network
 		std::vector<std::vector<double> > d; // Error terms for the neurons
+
+		// For training neural networks (loop optimization)
+		double MSE = 0.0;
+		std::vector<double> output = { 0.0 };
 };

@@ -41,26 +41,25 @@ int main(){
     std::cout << p.run({1,0}) << std::endl;
     std::cout << p.run({1,1}) << std::endl;
 
-    */
-
+    std::cout << "\n\n--------Hard Coded XOR Example----------------\n\n";
     // Creating the neural network
     std::vector<size_t> layerInfo = { 2, 2, 1 }; // Shape of the network (2 inputs, 2 neurons, then 1 neuron)
     MultiLayerPerceptron mlp(layerInfo, 1.0, 0.5);
     mlp.set_weights({ {{20,20,-10},{-10,-10,15}}    ,   {{10,10,-15}} });
     //                ^OR (layer1) ^NAND (layer1)     ^AND (layer2)
-
-    // Running the neural network
-    std::cout << "XOR Gate" << std::endl;
     std::cout << mlp.run({ 0,0 })[0] << std::endl;
     std::cout << mlp.run({ 0,1 })[0] << std::endl;
     std::cout << mlp.run({ 1,0 })[0] << std::endl;
     std::cout << mlp.run({ 1,1 })[0] << std::endl;
     return 0;
+    
+     */
 
     // Test code - Trained XOR
     std::cout << "\n\n--------Trained XOR Example----------------\n\n";
-    mlp = MultiLayerPerceptron({ 2,2,1 });
+    MultiLayerPerceptron mlp = MultiLayerPerceptron({ 2,2,1 });
     std::cout << "Training Neural Network as an XOR Gate..." << std::endl;
+
     double MSE;
     for (int i = 0; i < 3000; i++) {
         MSE = 0.0;
