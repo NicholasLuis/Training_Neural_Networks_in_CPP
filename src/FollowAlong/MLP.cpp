@@ -46,6 +46,7 @@ MultiLayerPerceptron::MultiLayerPerceptron(std::vector<size_t> layersinfo, doubl
 	for (size_t i = 0; i < layers.size(); i++) { // Iterates through i layers
 		
 		values.push_back(std::vector<double>(layers[i], 0.0)); // Vector of values
+        d.push_back(std::vector<double>(layers[i], 0.0)); // Vector of error terms
 		network.push_back(std::vector<Perceptron>());// Vector of neurons (empty for now)
 		
 		if (i>0) {// Does not iterate through input layer because it has no neurons
@@ -108,30 +109,34 @@ double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
     }
     // STEP 2: Calculate the MSE
     for (size_t i = 0; i < y.size(); i++) { // Iterates through every output value
-        MSE += pow(y[i] - output[i] , 2.0);
+        MSE += pow(y[i] - results[i] , 2.0);
     }
     MSE /= y.size();
 
     // STEP 3: Calculate the output error terms (of each output neuron)
-    for (size_t i = 0; i < output.size(); i++) { // Iterates through every output value
-        d.back()[i] = output[i] * (1.0 - output[i]) * (y[i] - output[i]);
+    for (size_t i = 0; i < results.size(); i++) { // Iterates through every output value
+        d.back()[i] = results[i] * (1.0 - results[i]) * (y[i] - results[i]);
     }
 
     // STEP 4: Calculate the error term of each neuron on each layer    
-    for (size_t i = network.size() - 2; i > 0; i--) // Iterates through layers (backwards)
+    for (size_t i = network.size() - 2; i > 0; i--) { // Iterates through layers (backwards)
         for (size_t h = 0; h < network[i].size(); h++) { // Iterates through neurons in given layer
             outputWeightedError = 0.0;
             for (size_t k = 0; k < layers[i + 1]; k++) {// Iterates through the input weights connected to the output of given neuron
-                outputWeightedError += network[i][h].weights[k] * ( d[d.size() - i + 1][h]); 
+                outputWeightedError += network[i+1][k].weights[h] * (d[i+1][k]);
             }
-            d[d.size() - i][h] = output[i] * (1.0 - output[i]) * outputWeightedError;
+            d[i][h] = values[i][h] * (1.0 - values[i][h]) * outputWeightedError;
         }
-
+    }
     // STEPS 5 & 6: Calculate the deltas and update the weights
-    for (size_t i = 1; i < network.size(); i++)
-        for (size_t j = 0; j < layers[i]; j++)
-            for (size_t k = 0; k < layers[i - 1] + 1; k++) {
-                // fill in the blank
+    for (size_t i = 1; i < network.size(); i++) // Iterates through the layers
+        for (size_t j = 0; j < layers[i]; j++) // Iterates through the neurons in given layer
+            for (size_t k = 0; k < layers[i - 1] + 1; k++) { // Iterates through the weights in given neuron
+                if (k == layers[i - 1]) // Because values vector does not contain info on the bias
+                    Delta = eta * d[i][j] * bias;
+                else
+                    Delta = eta * d[i][j] * values[i - 1][k];
+                network[i][j].weights[k] += Delta; // Updating weights
             }
     return MSE;
 }
