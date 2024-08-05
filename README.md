@@ -14,5 +14,7 @@ Eduardo Corpeño
 
                             
 
-### Modified by Nicholas Luis
-This branch will utilize the computing power of the graphics card for both using and training a neural network using NVIDIA's CUDA toolkit
+Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learning/instructors/eduardo-corpeno).
+
+[lil-course-url]: https://www.linkedin.com/learning/training-neural-networks-in-c-plus-plus-22661958?dApp=59033956&leis=LAA
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/D560DAQHtP6DeV5B2BQ/learning-public-crop_288_512/0/1690394761610?e=2147483647&v=beta&t=Lu-slSi57cjDJeTNdZpMFwutkicgbCjlm85IC_i6DrI
