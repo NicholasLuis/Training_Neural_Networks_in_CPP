@@ -40,12 +40,58 @@ int main()
         MSE += mlp.bp({ 1,1,1,0,0,0,0 }, { 0,0,0,0,0,0,0,1,0,0 }); // 7 Pattern
         MSE += mlp.bp({ 1,1,1,1,1,1,1 }, { 0,0,0,0,0,0,0,0,1,0 }); // 8 Pattern
         MSE += mlp.bp({ 1,1,1,1,0,1,1 }, { 0,0,0,0,0,0,0,0,0,1 }); // 9 Pattern
+        
+        MSE2 += mlp2.bp2({ 1,1,1,1,1,1,0 }, { 1,0,0,0,0,0,0,0,0,0 }); // 0 Pattern
+        MSE2 += mlp2.bp2({ 0,1,1,0,0,0,0 }, { 0,1,0,0,0,0,0,0,0,0 }); // 1 Pattern
+        MSE2 += mlp2.bp2({ 1,1,0,1,1,0,1 }, { 0,0,1,0,0,0,0,0,0,0 }); // 2 Pattern
+        MSE2 += mlp2.bp2({ 1,1,1,1,0,0,1 }, { 0,0,0,1,0,0,0,0,0,0 }); // 3 Pattern
+        MSE2 += mlp2.bp2({ 0,1,1,0,0,1,1 }, { 0,0,0,0,1,0,0,0,0,0 }); // 4 Pattern
+        MSE2 += mlp2.bp2({ 1,0,1,1,0,1,1 }, { 0,0,0,0,0,1,0,0,0,0 }); // 5 Pattern
+        MSE2 += mlp2.bp2({ 1,0,1,1,1,1,1 }, { 0,0,0,0,0,0,1,0,0,0 }); // 6 Pattern
+        MSE2 += mlp2.bp2({ 1,1,1,0,0,0,0 }, { 0,0,0,0,0,0,0,1,0,0 }); // 7 Pattern
+        MSE2 += mlp2.bp2({ 1,1,1,1,1,1,1 }, { 0,0,0,0,0,0,0,0,1,0 }); // 8 Pattern
+        MSE2 += mlp2.bp2({ 1,1,1,1,0,1,1 }, { 0,0,0,0,0,0,0,0,0,1 }); // 9 Pattern
+        
+        MSE = MSE / 10.0; // Mean MSE of all 10
+        MSE2 = MSE2 / 10.0; // Mean MSE of all 10
 
-        MSE = MSE / 10; // Mean MSE of all 10
         if (i % 100 == 0)
+        {
             std::cout << "MSE1 = " << MSE << std::endl;
+            std::cout << "MSE2 = " << MSE2 << std::endl;
+        }
+
     }
     
+    
+    std::cout << "Testing sigmoid: " << std::endl;
 
+    // Validation + Testing
+    std::cout << "0: " << indexOfLargestNumber(mlp.run({ 1,1,1,1,1,1,0 })) << std::endl;
+    std::cout << "1: " << indexOfLargestNumber(mlp.run({ 0,1,1,0,0,0,0 })) << std::endl;
+    std::cout << "2: " << indexOfLargestNumber(mlp.run({ 1,1,0,1,1,0,1 })) << std::endl;
+    std::cout << "3: " << indexOfLargestNumber(mlp.run({ 1,1,1,1,0,0,1 })) << std::endl;
+    std::cout << "4: " << indexOfLargestNumber(mlp.run({ 0,1,1,0,0,1,1 })) << std::endl;
+    std::cout << "5: " << indexOfLargestNumber(mlp.run({ 1,0,1,1,0,1,1 })) << std::endl;
+    std::cout << "6: " << indexOfLargestNumber(mlp.run({ 1,0,1,1,1,1,1 })) << std::endl;
+    std::cout << "7: " << indexOfLargestNumber(mlp.run({ 1,1,1,0,0,0,0 })) << std::endl;
+    std::cout << "8: " << indexOfLargestNumber(mlp.run({ 1,1,1,1,1,1,1 })) << std::endl;
+    std::cout << "9: " << indexOfLargestNumber(mlp.run({ 1,1,1,1,0,1,1 })) << std::endl;
+
+    std::cout << "Testing ReLU: " << std::endl;
+
+    // Validation + Testing
+    std::cout << "0: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,1,1,1,1,1,0 })) << std::endl;
+    std::cout << "1: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 0,1,1,0,0,0,0 })) << std::endl;
+    std::cout << "2: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,1,0,1,1,0,1 })) << std::endl;
+    std::cout << "3: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,1,1,1,0,0,1 })) << std::endl;
+    std::cout << "4: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 0,1,1,0,0,1,1 })) << std::endl;
+    std::cout << "5: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,0,1,1,0,1,1 })) << std::endl;
+    std::cout << "6: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,0,1,1,1,1,1 })) << std::endl;
+    std::cout << "7: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,1,1,0,0,0,0 })) << std::endl;
+    std::cout << "8: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,1,1,1,1,1,1 })) << std::endl;
+    std::cout << "9: " << indexOfLargestNumber(mlp2.runReLUNetwork({ 1,1,1,1,0,1,1 })) << std::endl;
     return 0;
+
+    
 }

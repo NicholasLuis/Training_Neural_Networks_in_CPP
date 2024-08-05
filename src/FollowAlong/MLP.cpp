@@ -104,6 +104,19 @@ std::vector<double> MultiLayerPerceptron::run(std::vector<double> x) {
     return values.back();
 }
 
+std::vector<double> MultiLayerPerceptron::runReLUNetwork(std::vector<double> x) {
+    // Run an input forward through the neural network.
+    // x is a vector with the input values.
+    values[0] = x;
+    for (size_t i = 1; i < network.size(); i++) {
+        for (size_t j = 0; j < layers[i]; j++) {
+            values[i][j] = network[i][j].runReLU(values[i - 1]);
+        }
+    }
+
+    return values.back();
+}
+
 // Run a single (x,y) pair with the backpropagation algorithm.
 double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
     // Resetting values
@@ -125,7 +138,7 @@ double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
 
     // STEP 3: Calculate the output error terms (of each output neuron)
     for (size_t i = 0; i < results.size(); i++) { // Iterates through every output value
-        d.back()[i] = results[i] * (1.0 - results[i]) * (y[i] - results[i]);
+        d.back()[i] = results[i] * (1.0 - results[i]) * (y[i] - results[i]); // Derivative of activation function * error
     }
 
     // STEP 4: Calculate the error term of each neuron on each layer    
@@ -136,6 +149,52 @@ double MultiLayerPerceptron::bp(std::vector<double> x, std::vector<double> y) {
                 outputWeightedError += network[i+1][k].weights[h] * (d[i+1][k]);
             }
             d[i][h] = values[i][h] * (1.0 - values[i][h]) * outputWeightedError;
+        }
+    }
+    // STEPS 5 & 6: Calculate the deltas and update the weights
+    for (size_t i = 1; i < network.size(); i++) // Iterates through the layers
+        for (size_t j = 0; j < layers[i]; j++) // Iterates through the neurons in given layer
+            for (size_t k = 0; k < layers[i - 1] + 1; k++) { // Iterates through the weights in given neuron
+                if (k == layers[i - 1]) // Because values vector does not contain info on the bias
+                    Delta = eta * d[i][j] * bias;
+                else
+                    Delta = eta * d[i][j] * values[i - 1][k];
+                network[i][j].weights[k] += Delta; // Updating weights
+            }
+    return MSE;
+}
+
+double MultiLayerPerceptron::bp2(std::vector<double> x, std::vector<double> y) {
+    // Resetting values
+    MSE = 0.0;
+    outputWeightedError = 0.0; // SUM(w_k1 * d_k) 
+
+    // Backpropagation Step by Step:
+    // STEP 1: Feed a sample to the network
+    std::vector<double> results = runReLUNetwork(x);
+    if (results.size() != y.size()) { // Makes sure the output size is as expected
+        std::cerr << "The size of the results vector is not expected";
+        return -1;
+    }
+    // STEP 2: Calculate the MSE
+    for (size_t i = 0; i < y.size(); i++) { // Iterates through every output value
+        MSE += pow(y[i] - results[i], 2.0);
+    }
+    MSE /= y.size();
+
+    // STEP 3: Calculate the output error terms (of each output neuron)
+    for (size_t i = 0; i < results.size(); i++) { // Iterates through every output value
+        d.back()[i] = ((results[i] <= 0) ? 0.0 : 1.0) * (y[i] - results[i]); // Derivative of activation function * error
+    }
+
+    // STEP 4: Calculate the error term of each neuron on each layer    
+    for (size_t i = network.size() - 2; i > 0; i--) { // Iterates through layers (backwards)
+        for (size_t h = 0; h < network[i].size(); h++) { // Iterates through neurons in given layer
+            outputWeightedError = 0.0;
+            for (size_t k = 0; k < layers[i + 1]; k++) {// Iterates through the input weights connected to the output of given neuron
+                outputWeightedError += network[i + 1][k].weights[h] * (d[i + 1][k]);
+            }
+            d[i][h] = ((values[i][h] <= 0) ? 0.0 : 1.0) * outputWeightedError;
         }
     }
     // STEPS 5 & 6: Calculate the deltas and update the weights

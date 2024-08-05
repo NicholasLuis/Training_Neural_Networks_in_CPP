@@ -25,7 +25,9 @@ class MultiLayerPerceptron{
 		void set_weights(std::vector<std::vector<std::vector<double> > > w_init);
 		void print_weights();
 		std::vector<double> run(std::vector<double> x);
+		std::vector<double> runReLUNetwork(std::vector<double> x);
 		double bp(std::vector<double> x, std::vector<double> y);
+		double bp2(std::vector<double> x, std::vector<double> y);
 		
 		std::vector<size_t> layers;
 		double bias;
