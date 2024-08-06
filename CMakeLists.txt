@@ -10,8 +10,6 @@ src/NeuralNetworks/GPU_MLP.cpp # Re-making the file to be GPU-parallelized
 src/NeuralNetworks/GPU_MLP.h # Re-making the file to be GPU-parallelized
 src/NeuralNetworks/Perceptron.cpp # Seperated the perceptron class from the network class
 src/NeuralNetworks/Perceptron.h # Seperated the perceptron class from the network class
-src/log/NetworkShape.txt
-src/log/NetworkWeights.txt
 src/log/log.cpp
 src/log/log.h
 )
